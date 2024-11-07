@@ -42,7 +42,7 @@ namespace RubricaTelefonica
         private void visualizzaContatti()
         {
             lstContatti.Items.Clear();
-            foreach (var contatto in contatti)
+            foreach (Contatto contatto in contatti)
                 lstContatti.Items.Add(contatto);
         }
 
@@ -50,7 +50,8 @@ namespace RubricaTelefonica
         {
             if (lstContatti.SelectedIndex >= 0)
             {
-                contatti.RemoveRange(lstContatti.SelectedIndex, 1);
+                Contatto contattoDaEliminare = (Contatto)lstContatti.SelectedItem;
+                contatti.RemoveRange(contatti.IndexOf(contattoDaEliminare), 1);
                 svuotaTextbox();
                 visualizzaContatti();
             }
@@ -81,14 +82,17 @@ namespace RubricaTelefonica
                     {
                         if (txtNome.Text != nome || txtTelefono.Text != telefono)
                         {
-                            Contatto modificato = Contatto.creaContatto(txtNome.Text, txtTelefono.Text, contatti);
-                            if (modificato != null)
+                            Contatto contattoModificato = (Contatto)lstContatti.SelectedItem;
+                            //Contatto modificato = Contatto.creaContatto(txtNome.Text, txtTelefono.Text, contatti);
+                            if (contattoModificato != null)
                             {
-                                int index = 0;
-                                while (contatti[index].nome != nome || contatti[index].telefono != telefono)
-                                    index++;
+                                contattoModificato.nome = txtNome.Text;
+                                contattoModificato.telefono = txtTelefono.Text;
+                                //int index = 0;
+                                //while (contatti[index].nome != nome || contatti[index].telefono != telefono)
+                                //    index++;
                                 
-                                contatti[index] = modificato;
+                                //contatti[index] = modificato;
                                 visualizzaContatti();
                             }
                         }
@@ -131,7 +135,7 @@ namespace RubricaTelefonica
             lstContatti.Items.Clear();
             string text = txtSearch.Text;
 
-            foreach (var contatto in contatti)
+            foreach (Contatto contatto in contatti)
             {
                 if (contatto.nome.Contains(text) || contatto.telefono.Contains(text))
                     lstContatti.Items.Add(contatto);
@@ -161,7 +165,7 @@ namespace RubricaTelefonica
         {
             StreamWriter sw = new StreamWriter("rubrica.txt", false);
 
-            foreach (var contatto in contatti)
+            foreach (Contatto contatto in contatti)
                 sw.Write(contatto.nome + "," + contatto.telefono + "\n");
             sw.Close();
             MessageBox.Show("File salvato correttamente", "ATTENZIONE", MessageBoxButtons.OK, MessageBoxIcon.Information);

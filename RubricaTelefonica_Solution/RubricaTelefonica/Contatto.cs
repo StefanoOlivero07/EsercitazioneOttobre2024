@@ -26,7 +26,7 @@ namespace RubricaTelefonica
 
             if (n.Length > 0 && t.Length > 0)
             {
-                foreach (var contatto in contatti)
+                foreach (Contatto contatto in contatti)
                 {
                     if (contatto.nome == n && contatto.telefono == t)
                     {
